@@ -28,6 +28,14 @@ RUN apt-get install -y --install-recommends winehq-stable && \
     
 WORKDIR /eduke3d
 
+RUN apt-get update && \
+    apt-get install -y wget p7zip  && \
+    wget https://dukeworld.com/eduke32/synthesis/20210404-9321-7225643e3/eduke32_win32_20210404-9321-7225643e3.7z && \
+    7zr x eduke32_win32_*.7z && \
+    wget https://github.com/zear/eduke32/raw/master/polymer/eduke32/duke3d.grp && \
+    rm -f eduke32_win32_*.7z && \
+    rm -rf /var/lib/apt/lists
+
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
 COPY menu.xml /etc/xdg/openbox/
 COPY supervisord.conf /etc/
